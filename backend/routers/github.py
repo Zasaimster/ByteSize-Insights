@@ -26,5 +26,5 @@ async def get_repo(
     start_time: date = None,
     end_time: date = None
 ):
-    data = col.find({"_id": ObjectId(repo_id)})
+    data = col.find_one({"_id": ObjectId(repo_id)})
     return {"message": parse_json(data)}

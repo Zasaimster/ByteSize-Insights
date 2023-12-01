@@ -24,13 +24,5 @@ async def subscribe_to_repo(
     user_id: int, 
     repo_id: int
 ):
-
+    repo = col.find_one_and_update({"_id": ObjectId(repo_id)}, {"$push": {"subscribers": user_id}})
     return {"message": "pr/subscribeToRepo"}
-
-@router.get("/unsubscribeToRepo")
-async def unsubscribe_to_repo(
-    user_id: int, 
-    repo_id: int
-):
-
-    return {"message": "pr/unsubscribeToRepo"}
