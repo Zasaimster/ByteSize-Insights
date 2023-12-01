@@ -50,6 +50,15 @@ export default async function UserHome({ searchParams }:
           description: "This Pull Request introduces a brand new feature that allows users to easily share their achievements and activities on social media platforms."
         }
       ]
+    },
+    {
+      date: "01/07/2023",
+      pullRequests: [
+        {
+          pullRequest: "Feature Enhancement",
+          description: "This Pull Request introduces a new feature that enhances the user experience of our app. It includes improved navigation, a sleeker user interface, and faster performance. This feature will make it easier for users to explore and interact with our platform."
+        }
+      ]
     }
   ];
 
@@ -66,7 +75,12 @@ export default async function UserHome({ searchParams }:
         <div>
           {data.map((item, index) => (
             <div key={index}>
-              <h2>{item.date}</h2>
+              <h2
+                className="text-xl font-bold"
+                style={{
+                  paddingTop: "1rem",
+                }}
+              >{item.date}</h2>
               {item.pullRequests.map((pr, prIndex) => (
                 <div key={prIndex}>
                   <strong>{pr.pullRequest}</strong>
