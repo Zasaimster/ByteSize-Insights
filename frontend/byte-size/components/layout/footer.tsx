@@ -11,11 +11,19 @@ export default function Footer() {
           target="_blank"
           rel="noopener noreferrer"
         >
+<<<<<<< HEAD
           Steven Tey
         </a>
       </p>
       <a
         href="https://www.buymeacoffee.com/steventey"
+=======
+          433 Kelton Studios
+        </a>
+      </p>
+      <a
+        href="https://www.buymeacoffee.com/boba"
+>>>>>>> main
         target="_blank"
         rel="noopener noreferrer"
         className="mx-auto mt-2 flex max-w-fit items-center justify-center space-x-2 rounded-lg border border-gray-200 bg-white px-6 py-2 transition-all duration-75 hover:scale-105"
