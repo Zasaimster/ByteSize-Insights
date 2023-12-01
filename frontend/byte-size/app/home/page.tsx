@@ -35,12 +35,12 @@ export default async function UserHome() {
       </div>
 
       <div className="my-10 grid w-full max-w-screen-xl animate-fade-up grid-cols-1 gap-5 px-5 md:grid-cols-3 xl:px-0">
-        {features.map(({ title, description, large }) => (
+        {features.map(({ title, large }) => (
           <Card
             key={title}
             title={title}
-            description={description}
-
+            // description={description}
+            repoTitle={title}
             large={large}
           />
         ))}
