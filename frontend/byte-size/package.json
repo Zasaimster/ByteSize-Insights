@@ -37,7 +37,8 @@
     "tailwind-merge": "^1.14.0",
     "typescript": "5.2.2",
     "use-debounce": "^9.0.4",
-    "vaul": "^0.6.8"
+    "vaul": "^0.6.8",
+    "vercel": "^32.6.0"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.6",
