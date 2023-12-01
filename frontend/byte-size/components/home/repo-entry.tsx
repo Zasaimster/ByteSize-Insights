@@ -2,15 +2,14 @@ import Link from "next/link";
 import { ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 
-export default function Card({
+export default function RepoEntry({
   title,
-  demo,
-  repoTitle,
+  description,
   large,
 }: {
   title: string;
+  description: string;
   demo: ReactNode;
-  repoTitle: string;
   large?: boolean;
 }) {
   return (
@@ -22,16 +21,9 @@ export default function Card({
       {/* <div className="flex h-60 items-center justify-center">{demo}</div> */}
       <div className="">
         <div className="grid grid-cols-3 gap-4">
-          <h2 className="col-span-1 bg-gradient-to-br from-black to-stone-500 bg-clip-text font-display text-xl font-bold text-transparent [text-wrap:balance] md:text-3xl md:font-normal">
-            {title}
-          </h2>
-          <button className="col-span-1">Subscribe</button>
-          <Link 
-            href = {{
-              pathname: '/repos',
-              query: { title: title, description: "byte" }
-            }}
-            className="col-span-1">View</Link>
+          <p>{title}</p>
+
+          <p>{description}</p>
         </div>
         {/* <div className="prose-sm mt-3 leading-normal text-gray-500 [text-wrap:balance] md:prose">
           <ReactMarkdown
