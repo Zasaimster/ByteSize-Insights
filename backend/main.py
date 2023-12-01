@@ -1,8 +1,7 @@
-from backend import chatgpt
-from backend.routers import summaries
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from backend.routers import pr
+from routers import github
+from routers import users
 
 app = FastAPI()
 
@@ -16,8 +15,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(pr.router)
-app.include_router(summaries.router)
+app.include_router(github.router)
+app.include_router(users.router)
 
 
 @app.get("/")
