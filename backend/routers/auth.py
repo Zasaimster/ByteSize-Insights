@@ -53,7 +53,7 @@ async def sign_up(user_info: SignUpQuery, db=Depends(get_mongo_db)):
     return {"message": "User successfully registered"}
 
 
-@router.post("/token")
+@router.post("/login")
 async def login(user_info: LoginQuery, db=Depends(get_mongo_db)):
     user_data = get_user(db, user_info.email)
     if not user_data:
