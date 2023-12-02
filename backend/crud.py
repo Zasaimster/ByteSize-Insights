@@ -31,3 +31,12 @@ def get_user(db, username: str):
     user_data = col.find_one({"username": username})
 
     return parse_json(user_data)
+
+
+def subscribe_user_to_repo(db, user_id: int, repo_id: int):
+    col = db["users"]
+    repo = col.find_one_and_update(
+        {"_id": ObjectId(repo_id)}, {"$push": {"subscribers": user_id}}
+    )
+
+    return parse_json(repo)
