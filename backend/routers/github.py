@@ -13,6 +13,7 @@ def parse_json(data):
 router = APIRouter(prefix="/github", tags=["github"])
 
 
+# todo: move this functionality to crud.py
 @router.get("/getAllRepos")
 async def get_all_repos(db=Depends(get_mongo_db)):
     col = db["repositories"]
