@@ -24,7 +24,7 @@ class AuthHandler:
 
     def __init__(self):
         self.password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-        self.oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+        self.oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
     def get_oauth2_scheme(self):
         return self.oauth2_scheme
@@ -49,7 +49,7 @@ class AuthHandler:
     def decode_jwt_token(self, token):
         try:
             payload = jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])
-            email = payload.get("sub")
-            return email
+            username = payload.get("sub")
+            return username
         except:
             return None

@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from fastapi import APIRouter, Depends, HTTPException
-from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from typing import Annotated
 
@@ -24,10 +24,10 @@ async def get_user_information(
         headers={"WWW-Authenticate": "Bearer"},
     )
 
-    email = auth_handler.decode_jwt_token(token)
-    if email is None:
+    username = auth_handler.decode_jwt_token(token)
+    if username is None:
         raise credentials_exception
-    user_data = get_user(db, email)
+    user_data = get_user(db, username)
     if user_data is None:
         raise credentials_exception
     return user_data
@@ -54,16 +54,19 @@ async def sign_up(user_info: SignUpQuery, db=Depends(get_mongo_db)):
 
 
 @router.post("/login")
-async def login(user_info: LoginQuery, db=Depends(get_mongo_db)):
-    user_data = get_user(db, user_info.email)
+async def login(
+    form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db=Depends(get_mongo_db)
+):
+    user_data = get_user(db, form_data.username)
+    print(user_data)
     if not user_data:
         raise HTTPException(
             status_code=404,
-            detail=f"Account for {user_info.email} not found.",
+            detail=f"Account for {form_data.username} not found.",
             headers={"WWW-Authenticate": "Bearer"},
         )
     valid_password = auth_handler.verify_password(
-        user_info.password, user_data["password"]
+        form_data.password, user_data["password"]
     )
     if not valid_password:
         raise HTTPException(
@@ -72,7 +75,7 @@ async def login(user_info: LoginQuery, db=Depends(get_mongo_db)):
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    access_token = auth_handler.create_access_token(data={"sub": user_data["email"]})
+    access_token = auth_handler.create_access_token(data={"sub": user_data["username"]})
 
     return {"access_token": access_token, "token_type": "bearer"}
 

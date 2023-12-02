@@ -9,5 +9,5 @@ class SignUpQuery(BaseModel):
 
 
 class LoginQuery(BaseModel):
-    email: str
+    username: str
     password: str
