@@ -15,7 +15,7 @@ export default function Card({
 }) {
   return (
     <div
-      className={`relative col-span-1 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-md ${large ? "md:col-span-2" : ""
+      className={`relative col-span-1 p-3 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-md ${large ? "md:col-span-2" : ""
         }`}
     >
       <div className="">
@@ -29,7 +29,7 @@ export default function Card({
               pathname: '/repos',
               query: { title: title, description: "byte" }
             }}
-            className="col-span-1">View</Link>
+            className="col-span-1 flex items-center justify-center">View</Link>
         </div>
       </div>
     </div>
