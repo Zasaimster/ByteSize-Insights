@@ -92,11 +92,7 @@ export default async function UserHome({ searchParams }:
         </div>
       </div>
 
-      /*
-        This takes all the data in the data array and maps it to a RepoEntry component.
-      */
-
         
     </>
   );
-}
+} 
