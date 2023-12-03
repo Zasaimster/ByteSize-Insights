@@ -35,8 +35,22 @@ def get_user(db, username: str):
 
 def subscribe_user_to_repo(db, user_id: int, repo_id: int):
     col = db["users"]
-    repo = col.find_one_and_update(
+    repos = col.find_one_and_update(
         {"_id": ObjectId(repo_id)}, {"$push": {"subscribers": user_id}}
     )
+
+    return parse_json(repos)
+
+
+def get_all_repos(db):
+    col = db["repositories"]
+    data = [repo for repo in col.find()]
+
+    return parse_json(data)
+
+
+def get_repo_by_id(db, repo_id):
+    col = db["repositories"]
+    repo = col.find_one({"_id": ObjectId(repo_id)})
 
     return parse_json(repo)

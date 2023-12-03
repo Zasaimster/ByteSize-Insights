@@ -1,10 +1,17 @@
 from datetime import datetime, timedelta
+import os
 import pymongo
 from jose import jwt
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer
+from dotenv import load_dotenv
 
-URI = "mongodb+srv://cs130:7SBYtWrVqif1EzoR@cluster0.miyegq5.mongodb.net/?retryWrites=true&w=majority"
+load_dotenv()
+
+URI = os.getenv("MONGO_URI")
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+OPENAI_TOKEN = os.getenv("OPENAI_TOKEN")
+GITHUB_API_URL = "https://api.github.com"
 
 
 def get_mongo_db():
