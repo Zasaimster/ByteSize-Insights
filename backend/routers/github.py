@@ -3,7 +3,8 @@ import json
 from fastapi import APIRouter, Depends
 import requests
 
-from crud import get_all_repos, get_repo_by_id, create_new_prs
+from crud import get_all_repos, get_repo_by_url, create_new_prs, parse_json
+from routers.auth import get_user_information
 from dependencies import (
     get_mongo_db,
     GITHUB_TOKEN,
@@ -24,20 +25,6 @@ openai_header = {
 }
 
 router = APIRouter(prefix="/github", tags=["github"])
-
-
-@router.get("/getAllRepos")
-async def get_repos(db=Depends(get_mongo_db)):
-    repositories = get_all_repos(db)
-
-    return repositories
-
-
-@router.get("/getRepo")
-async def get_repo(repo_id: str, db=Depends(get_mongo_db)):
-    repository = get_repo_by_id(db, repo_id)
-
-    return repository
 
 
 @router.post("/registerNewRepository")
@@ -147,6 +134,8 @@ async def summarize_all_recent_pull_requests(db=Depends(get_mongo_db)):
         repo_id = repo["_id"]["$oid"]
         pr_information[repo_id] = await get_last_week_prs(repo)
 
+    # TODO: filter out PRs here so that way we use less chatgpt and it runs quicker
+
     # get diff text and call chatgpt api
     for pr_summaries in pr_information.values():
         for summary in pr_summaries:
@@ -159,13 +148,16 @@ async def summarize_all_recent_pull_requests(db=Depends(get_mongo_db)):
                 continue
             summary["description"] = chatgpt_summary
 
-    print([summary["url"] for prs in pr_information.values() for summary in prs])
+    print(
+        "PR URLs:",
+        [summary["url"] for prs in pr_information.values() for summary in prs],
+    )
 
     # Create PRs and add them to repository
     for repo_id, pr_summaries in pr_information.items():
         res = create_new_prs(db, repo_id, pr_summaries)
-        if not res:
+        if res is None:
             continue
         print("New PR ObjectIds: ", res)
 
-    return pr_information
+    return parse_json(pr_information)
