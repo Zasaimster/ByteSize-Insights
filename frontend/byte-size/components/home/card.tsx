@@ -4,12 +4,14 @@ import ReactMarkdown from "react-markdown";
 
 export default function Card({
   title,
-  demo,
+  action,
+  onClick,
   repoTitle,
   large,
 }: {
   title: string;
-  demo: ReactNode;
+  action: string;
+  onClick?: (title: any) => void;
   repoTitle: string;
   large?: boolean;
 }) {
@@ -23,7 +25,7 @@ export default function Card({
           <h2 className="col-span-1 bg-gradient-to-br from-black to-stone-500 bg-clip-text font-display text-xl font-bold text-transparent [text-wrap:balance] md:text-3xl md:font-normal">
             {title}
           </h2>
-          <button className="col-span-1">Subscribe</button>
+          <button className="col-span-1" onClick={onClick}>{action}</button>
           <Link
             href={{
               pathname: '/repos',
