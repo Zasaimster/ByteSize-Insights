@@ -12,6 +12,7 @@ URI = os.getenv("MONGO_URI")
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 OPENAI_TOKEN = os.getenv("OPENAI_TOKEN")
 GITHUB_API_URL = "https://api.github.com"
+OPENAI_API_URL = "https://api.openai.com/v1/chat/completions"
 
 
 def get_mongo_db():
