@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from routers import github, users, auth
+from emails import create_html
 
 app = FastAPI()
 
@@ -16,6 +17,7 @@ app.add_middleware(
 app.include_router(github.router)
 app.include_router(users.router)
 app.include_router(auth.router)
+app.include_router(create_html.router)
 
 
 @app.get("/")

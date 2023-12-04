@@ -40,3 +40,14 @@ def subscribe_user_to_repo(db, user_id: int, repo_id: int):
     )
 
     return parse_json(repo)
+
+
+def get_all_users(db):
+    col = db["users"]
+    user_lst = col.distinct("username")
+    return (parse_json(user_lst))
+
+def get_all_prs(db):
+    col = db["pull-requests"]
+    pr_lst = col.distinct("description")
+    return (parse_json(pr_lst))
