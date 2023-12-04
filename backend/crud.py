@@ -115,5 +115,15 @@ def create_new_prs(db, repo_id, prs):
         {"$push": {"pullRequests": {"$each": pr_ids}}},
         return_document=ReturnDocument.AFTER,
     )
-
     return parse_json(updated_repo)["pullRequests"]
+
+def get_all_users(db):
+    col = db["users"]
+    user_lst = col.distinct("username")
+    return (parse_json(user_lst))
+
+def get_all_prs(db):
+    col = db["pull-requests"]
+    pr_lst = col.distinct("description")
+    return (parse_json(pr_lst))
+
