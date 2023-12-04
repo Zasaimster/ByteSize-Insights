@@ -27,7 +27,7 @@ export default async function OG() {
       >
         <img
           src={`https://${process.env.VERCEL_URL || "precedent.dev"}/logo.png`}
-          alt="Precedent Logo"
+          alt="ByteSize Insights"
           tw="w-20 h-20 mb-4 opacity-95"
         />
         <h1
@@ -42,7 +42,7 @@ export default async function OG() {
             letterSpacing: "-0.02em",
           }}
         >
-          Precedent
+          ByteSize Insights
         </h1>
       </div>
     ),

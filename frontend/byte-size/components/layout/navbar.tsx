@@ -16,7 +16,8 @@ export default function NavBar() {
   // const session = null
   const scrolled = useScroll(50);
   useEffect(() => {
-    // console.log(session)
+    console.log("USE EFFECT")
+    console.log(session)
   }, [])
   return (
     <>
