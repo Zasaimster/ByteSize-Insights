@@ -4,19 +4,23 @@ import Image from "next/image";
 import Link from "next/link";
 import useScroll from "@/lib/hooks/use-scroll";
 import { useSignInModal } from "./sign-in-modal";
-import { useSignUpModal } from "./sign-up-modal"
 import UserDropdown from "./user-dropdown";
 import { Session } from "next-auth";
+import { useEffect } from "react";
+import { useSession } from "next-auth/react";
 
-export default function NavBar({ session }: { session: Session | null }) {
+// export default function NavBar({ session }: { session: Session | null }) {
+export default function NavBar() {
   const { SignInModal, setShowSignInModal } = useSignInModal();
-  const { SignUpModal, setShowSignUpModal } = useSignUpModal();
+  const { data: session } = useSession()
+  // const session = null
   const scrolled = useScroll(50);
-
+  useEffect(() => {
+    // console.log(session)
+  }, [])
   return (
     <>
       <SignInModal />
-      <SignUpModal />
       <div
         className={`fixed top-0 w-full flex justify-center ${scrolled
           ? "border-b border-gray-200 bg-white/50 backdrop-blur-xl"
@@ -32,27 +36,17 @@ export default function NavBar({ session }: { session: Session | null }) {
               height="30"
               className="mr-2 rounded-sm"
             ></Image>
-            <p>Byte-Sized Insights</p>
+            <p>Precedent</p>
           </Link>
           <div>
             {session ? (
               <UserDropdown session={session} />
             ) : (
               <button
-                className="rounded-full border border-black mr-3 bg-black p-1.5 px-4 text-sm text-white transition-all hover:bg-white hover:text-black"
+                className="rounded-full border border-black bg-black p-1.5 px-4 text-sm text-white transition-all hover:bg-white hover:text-black"
                 onClick={() => setShowSignInModal(true)}
               >
-                Login
-              </button>
-            )}
-            {session ? (
-              <UserDropdown session={session} />
-            ) : (
-              <button
-                className="rounded-full border border-black bg-black p-1.5 px-4 text-sm text-white transition-all hover:bg-white hover:text-black"
-                onClick={() => setShowSignUpModal(true)}
-              >
-                Sign up
+                Sign up / Login
               </button>
             )}
           </div>

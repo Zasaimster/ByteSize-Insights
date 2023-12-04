@@ -24,6 +24,7 @@ openai_header = {
     "Authorization": f"Bearer {OPENAI_TOKEN}",
 }
 
+
 router = APIRouter(prefix="/github", tags=["github"])
 
 
