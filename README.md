@@ -1,3 +1,5 @@
+<img src="https://therealsujitk-vercel-badge.vercel.app/?app=byte-size-insights" />
+
 # Repository Template
 
 [![Build Status](https://app.travis-ci.com/melaasar/cs130-template.svg?branch=master)](https://app.travis-ci.com/github/melaasar/cs130-template)
