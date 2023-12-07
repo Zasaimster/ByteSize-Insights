@@ -1,3 +1,4 @@
+# This validator is used whenever user objects are inserted into the database.
 userValidator = {
     "$jsonSchema": {
         "bsonType": "object",
@@ -22,6 +23,7 @@ userValidator = {
     }
 }
 
+# This validator is used repository user objects are inserted into the database.
 repositoryValidator = {
     "$jsonSchema": {
         "bsonType": "object",
@@ -40,6 +42,7 @@ repositoryValidator = {
     }
 }
 
+# This validator is used whenever pull request objects are inserted into the database.
 pullRequestValidator = {
     "$jsonSchema": {
         "bsonType": "object",
