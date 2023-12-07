@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# Load depdencies
 URI = os.getenv("MONGO_URI")
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 OPENAI_TOKEN = os.getenv("OPENAI_TOKEN")
@@ -15,6 +16,7 @@ GITHUB_API_URL = "https://api.github.com"
 OPENAI_API_URL = "https://api.openai.com/v1/chat/completions"
 
 
+# Generator for MongoDB instance. This avoids us accessing a new connection for each API call
 def get_mongo_db():
     client = pymongo.MongoClient(URI)
     db = client["ByteSize-Insights"]
@@ -25,6 +27,7 @@ def get_mongo_db():
         client.close()
 
 
+# Manages hashing passwords and creating authentication tokens
 class AuthHandler:
     SECRET_KEY = "a6e7e786f3c0532a648e169792583367e6235373f46def643c600f6b8aa449ef"
     ALGORITHM = "HS256"
@@ -37,6 +40,7 @@ class AuthHandler:
     def get_oauth2_scheme(self):
         return self.oauth2_scheme
 
+    # Create JWT token with 24 hour access
     def create_access_token(self, data: dict):
         access_token_expires = timedelta(minutes=self.ACCESS_TOKEN_EXPIRE_MINS)
         to_encode = data.copy()
@@ -47,13 +51,14 @@ class AuthHandler:
         encoded_jwt = jwt.encode(to_encode, self.SECRET_KEY, algorithm=self.ALGORITHM)
         return encoded_jwt
 
+    # Check plain text with hashed password
     def verify_password(self, plain_password, hashed_password):
-        print(plain_password, hashed_password)
         return self.password_context.verify(plain_password, hashed_password)
 
     def get_password_hash(self, password):
         return self.password_context.hash(password)
 
+    # Retrieve the email from the payload
     def decode_jwt_token(self, token):
         try:
             payload = jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])

@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from routers import github, users, auth
 from emails import create_html
 
+# Create server instance
 app = FastAPI()
 
 app.add_middleware(
@@ -14,6 +15,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Create router links ot different uses
 app.include_router(github.router)
 app.include_router(users.router)
 app.include_router(auth.router)
