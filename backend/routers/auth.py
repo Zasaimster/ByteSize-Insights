@@ -4,9 +4,9 @@ from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordRequestFor
 from typing import Annotated
 
 
-from ..dependencies import get_mongo_db, AuthHandler
-from ..crud import get_user, insert_user
-from ..models import SignUpQuery
+from backend.dependencies import get_mongo_db, AuthHandler
+from backend.crud import get_user, insert_user
+from backend.models import SignUpQuery
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -23,12 +23,15 @@ async def get_user_information(
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
-
+    print(token)
     username = auth_handler.decode_jwt_token(token)
+    print(username)
     if username is None:
+        print("username none")
         raise credentials_exception
     user_data = get_user(db, username)
     if user_data is None:
+        print("data none")
         raise credentials_exception
     return user_data
 

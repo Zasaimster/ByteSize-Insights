@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 
-from ..crud import get_repo_by_url, get_user_repos, subscribe_user_to_repo
-from .auth import get_user_information
-from ..dependencies import get_mongo_db
+from backend.crud import get_repo_by_url, get_user_repos, subscribe_user_to_repo
+from backend.routers.auth import get_user_information
+from backend.dependencies import get_mongo_db
 
 
 router = APIRouter(prefix="/user", tags=["user"])
