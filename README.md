@@ -1,4 +1,5 @@
-<img src="https://therealsujitk-vercel-badge.vercel.app/?app=byte-size-insights" />
+Frontend: <img src="https://therealsujitk-vercel-badge.vercel.app/?app=byte-size-insights" />
+Backend: <img src="https://therealsujitk-vercel-badge.vercel.app/?app=byte-size-insights-backend" />
 
 # Repository Template
 
@@ -44,6 +45,8 @@ OPENAI_TOKEN=...
 Our AWS Lambda function is stored in `/bytesize-insights_cron/lambda_function.py`. Navigate there to update the function. `BACKEND_URL` is stored in the AWS environment field, but it points to where the backend runs. If you would like to test the code, set `BACKEND_URL=http://localhost:8000/` and run the function through the command line.
 
 ## Deployment
+
+The application can be accessed at https://byte-size-insights.vercel.app/, and the API can be called individually at https://byte-size-insights-backend.vercel.app/. Documentation is deployed and published at https://byte-size-insights-backend.vercel.app/docs.
 
 We use Vercel to handle the deployment process for us. Since this was initially a school project, we were looking for a tool that required the least amount of configuration that could get the application deployed the quickest. Vercel met our requirements because we provide Vercel permissions to access our GitHub repository, removing the need for a continuous deployment script. Instead, our continuous deployment is fully configured through the Vercel dashboard user interface to update whenever code is pushed onto the *main* branch. Additionally, Vercel enables us to run the tests prior to each deployment.
 
