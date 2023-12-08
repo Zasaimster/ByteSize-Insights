@@ -1,5 +1,4 @@
 from datetime import datetime
-import json
 from fastapi import APIRouter, Depends
 import requests
 
@@ -14,6 +13,7 @@ from dependencies import (
 )
 from datetime import timedelta
 
+# Define standard Github and OpenAI API headers for downstream calls
 github_header = {
     "Accept": "application/vnd.github+json",
     "Authorization": f"Bearer {GITHUB_TOKEN}",
@@ -30,15 +30,18 @@ router = APIRouter(prefix="/github", tags=["github"])
 
 @router.post("/registerNewRepository")
 async def register_repo(repo_url: str, db=Depends(get_mongo_db)):
+    """Registers a new repository into the database"""
     # TODO
     print(f"Registering new repo: {repo_url}")
 
 
 async def get_last_week_prs(repo):
+    """Gets PRs created in the last 7 days for a repository"""
     print(f"Getting PRs for:", {repo["url"]})
     curr_page, prs_older_than_week = 1, False
     last_week_prs = []
 
+    # Request 10 PRs at a time until we pass 1 week
     while not prs_older_than_week:
         print(f"Page: {curr_page}")
         get_prs_url = f"{GITHUB_API_URL}/repos/{repo['owner']}/{repo['name']}/pulls?per_page=10&page={curr_page}"
@@ -49,7 +52,7 @@ async def get_last_week_prs(repo):
             created_at = datetime.strptime(pr["created_at"], "%Y-%m-%dT%H:%M:%SZ")
             curr_time = datetime.now()
             if curr_time - created_at < timedelta(days=7):
-                last_week_prs.append(
+                last_week_prs.append(  # Only store relevant info
                     {
                         k: pr[k]
                         for k in [
@@ -74,6 +77,7 @@ async def get_last_week_prs(repo):
     return last_week_prs
 
 
+# Query the PR's diff
 async def get_diff_text(diff_url):
     print(f"Getting diff {diff_url}")
     response = requests.get(diff_url)
@@ -84,6 +88,7 @@ async def get_diff_text(diff_url):
     return response.text
 
 
+# Create ChatGPT message body
 def get_chatgpt_message(pr_info):
     message = "Summarize the information about this pull request with the provided information. Make sure to make your description concise and understandable for non-developers like managers or executives when they read this. Here is all the necessary information you may need. You do not need to include it all. Use absolutely no markdown formatting in the response. Do not reply with a list. Give a brief summary as a paragraph.\n"
     message += f"Title: {pr_info['title']}\n"
@@ -101,6 +106,7 @@ def get_chatgpt_message(pr_info):
     return message
 
 
+# Summarize PR information via ChatGPT
 async def chat_gpt_summarizer(pr_info):
     print(f"Getting ChatGPT Summary for PR {pr_info['url']}")
     chatgpt_body = {
@@ -125,6 +131,7 @@ async def chat_gpt_summarizer(pr_info):
 # access token and add to your .env file
 @router.post("/summarizeAllPullRequests")
 async def summarize_all_recent_pull_requests(db=Depends(get_mongo_db)):
+    """Parse all of our repositories, find week's PRs, and summarize them via ChatGPT. Automated via Cron job."""
     print("Summarizing All PRs...")
 
     pr_information = {}
@@ -149,6 +156,7 @@ async def summarize_all_recent_pull_requests(db=Depends(get_mongo_db)):
                 continue
             summary["description"] = chatgpt_summary
 
+    # List all PR URL's that we pulled
     print(
         "PR URLs:",
         [summary["url"] for prs in pr_information.values() for summary in prs],
