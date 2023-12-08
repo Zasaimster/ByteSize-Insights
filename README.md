@@ -23,7 +23,7 @@ Follow these instructions before writing any code:
 - Run `npm install` to install our dependencies
 - Run `npm run dev` to load the development server located at `http://localhost:3000`
 
-You will need to be running the backend simultaneously if you would like to walk through user workflows. Check the [Backend](https://github.com/Zasaimster/ByteSize-Insights?tab=readme-ov-file#backend) section to run the server.
+You will need to be running the backend simultaneously if you would like to walk through user workflows. Check the [Backend](https://github.com/Zasaimster/ByteSize-Insights?tab=readme-ov-file#backend) section to run the server. The frontend can be run with `next start` in the `frontend/byte-size/` directory.
 
 ### Backend
 
@@ -39,6 +39,8 @@ MONGO_URI=...
 GITHUB_TOKEN=...
 OPENAI_TOKEN=...
 ```
+
+The backend server can be run with `uvicorn backend.api.main:app --reload` in the root directory.
 
 ### Lambda Function
 

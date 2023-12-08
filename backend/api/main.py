@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from api.routers import github, users, auth
-from api.emails import create_html
+from backend.api.routers import github, users, auth
+from backend.api.emails import create_html
 
 # Create server instance
 app = FastAPI()
