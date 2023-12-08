@@ -23,12 +23,15 @@ async def get_user_information(
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
-
+    print(token)
     username = auth_handler.decode_jwt_token(token)
+    print(username)
     if username is None:
+        print("username none")
         raise credentials_exception
     user_data = get_user(db, username)
     if user_data is None:
+        print("data none")
         raise credentials_exception
     return user_data
 
