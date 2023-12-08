@@ -2,9 +2,9 @@ from datetime import datetime
 from fastapi import APIRouter, Depends
 import requests
 
-from crud import get_all_repos, get_repo_by_url, create_new_prs, parse_json
-from routers.auth import get_user_information
-from dependencies import (
+from ..crud import get_all_repos, get_repo_by_url, create_new_prs, parse_json
+from .auth import get_user_information
+from ..dependencies import (
     get_mongo_db,
     GITHUB_TOKEN,
     OPENAI_TOKEN,
