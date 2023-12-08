@@ -4,14 +4,12 @@ from bson.objectid import ObjectId
 from pymongo.collection import ReturnDocument
 
 
+# Parses MongoDB document and converts to a dictionary/json object
 def parse_json(data):
     return json.loads(json_util.dumps(data))
 
 
-def get_summary(repo: str, id: int):
-    print(f"get pr summary with a given repo and id: {repo} {id}")
-
-
+# Creates a user in MongoDB
 def insert_user(
     db, username: str, hashed_password: str, first_name: str, last_name: str
 ):
@@ -28,6 +26,7 @@ def insert_user(
     return result
 
 
+# Returns a MongoDB user
 def get_user(db, username: str):
     col = db["users"]
     user_data = col.find_one({"username": username})
@@ -35,11 +34,10 @@ def get_user(db, username: str):
     return parse_json(user_data)
 
 
+# Subscribes a user to a repository in MongoDB. Creates 2 way mapping between User and Repository
 def subscribe_user_to_repo(db, user_id: str, repo_url: str):
     repo_col = db["repositories"]
-    repos = repo_col.find_one_and_update(
-        {"url": repo_url}, {"$push": {"subscribers": user_id}}
-    )
+    repo_col.find_one_and_update({"url": repo_url}, {"$push": {"subscribers": user_id}})
 
     users_col = db["users"]
     user = users_col.find_one_and_update(
@@ -49,6 +47,7 @@ def subscribe_user_to_repo(db, user_id: str, repo_url: str):
     return parse_json(user)
 
 
+# Return all Repositories
 def get_all_repos(db):
     col = db["repositories"]
     data = [repo for repo in col.find()]
@@ -56,6 +55,7 @@ def get_all_repos(db):
     return parse_json(data)
 
 
+# Returns a User's repositories
 def get_user_repos(db, repo_urls):
     col = db["repositories"]
     user_repos = []
@@ -66,6 +66,7 @@ def get_user_repos(db, repo_urls):
     return user_repos
 
 
+# Returns a repository based on its URL
 def get_repo_by_url(db, repo_url):
     repo_col = db["repositories"]
     repo = repo_col.find_one({"url": repo_url})
@@ -81,6 +82,7 @@ def get_repo_by_url(db, repo_url):
     return repo
 
 
+# Adds list of PRs for a repository
 def create_new_prs(db, repo_id, prs):
     if len(prs) == 0:
         print("No PRs included for repository")
@@ -117,11 +119,15 @@ def create_new_prs(db, repo_id, prs):
     )
     return parse_json(updated_repo)["pullRequests"]
 
+
+# Gets all Users
 def get_all_users(db):
     col = db["users"]
     user_lst = col.distinct("username")
-    return (parse_json(user_lst))
+    return parse_json(user_lst)
 
+
+# Gets all PRs for a Repository
 def get_all_prs(db):
     col = db["pull-requests"]
     pr_lst = col.distinct("description")

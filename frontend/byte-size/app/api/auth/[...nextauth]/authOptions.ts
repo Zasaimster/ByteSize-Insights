@@ -9,7 +9,7 @@ export const authOptions = {
       }),
     ],
     callbacks: {
-        async session({session, token, user}) {
+        async session({session, token, user}: {session: any, token: any, user: any}) {
             const user_email = session.user.email
             const nameParts = session.user.name.split(" ")
             const firstName = nameParts[0]

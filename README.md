@@ -1,94 +1,59 @@
+Frontend: <img src="https://therealsujitk-vercel-badge.vercel.app/?app=byte-size-insights" />
+Backend: <img src="https://therealsujitk-vercel-badge.vercel.app/?app=byte-size-insights-backend" />
+
 # Repository Template
 
-[![Build Status](https://app.travis-ci.com/melaasar/cs130-template.svg?branch=master)](https://app.travis-ci.com/github/melaasar/cs130-template)
-[![Release](https://img.shields.io/github/v/release/melaasar/cs130-template?label=release)](https://github.com/melaasar/cs130-template/releases/latest)
+Bytesize Insights is a powerful application that aggregates repository PRs and utilizes ChatGPT to generate concise summaries. The user-friendly front-end interface allows personalized customization of subscribed repositories. Stay informed with weekly email digests detailing the latest happenings in your chosen repositories. Experience streamlined PR management with Bytesize Insights.
 
-This repo serves as a template for a repository that follows the Scrum process. The following information describes how the native features/workflows of Github can be customized to work in a scrum development process.
+## Usage
 
-## Issues
+Visit our [Wiki](https://github.com/Zasaimster/ByteSize-Insights/wiki) for more information regarding application usage.
 
-An issue is a unit of tracking work. Issues can be classified into different classes using `labels`. This can be used to classify issues in the scrum process as follows.
+## Local Development
 
-### Epic
+To work on this locally, first pull the repository. Since this is a monolithic application, we include both the backend and frontend within this repository.
 
-An [epic](https://dev.to/jorenrui/a-look-into-how-i-manage-my-personal-projects-my-git-github-workflow-1e7h#epic-issue) is an issue with the label `epic`. It represents a large story that can be broken into stories, which can be addressed over multiple sprints. An epic issue references its story issues as a task list in its description. A Github action has been added to automatically check/uncheck the story task items when they get closed/reopened.
+### Frontend
 
-### Story
+Follow these instructions before writing any code:
 
-A [story](https://www.atlassian.com/agile/project-management/epics-stories-themes) is an issue with the label `story`. It may represents a new feature, or an enhancement to an existing feature. A story issue can be broken into sub tasks, which are added as a task list in the description of the story issue. These sub task items can be checked manually by the developer to indicate completion.
+- Install Node version 21.x
+- Install npm version 10.x
+- Navigate to `/frontend/byte-size/` in order to work on the frontend.
+- Run `npm install` to install our dependencies
+- Run `npm run dev` to load the development server located at `http://localhost:3000`
 
-### Bug
+You will need to be running the backend simultaneously if you would like to walk through user workflows. Check the [Backend](https://github.com/Zasaimster/ByteSize-Insights?tab=readme-ov-file#backend) section to run the server. The frontend can be run with `next start` in the `frontend/byte-size/` directory.
 
-A bug is an issue with the label `bug`. It represents a problem with the existing code that needs to be fixed.
+### Backend
 
-### Question
+Follow these instructions before updating the code:
 
-A question is an issue with the label `question`. It represents a question raised by any one and that may get converted into other types of issues.
+- Install Python 3.12.x
+- Install Pip 23.x.
+- Run `pip install -r requirements.txt`
+- Create a `.env` file with the following fields:
 
-## Labels
+```
+MONGO_URI=...
+GITHUB_TOKEN=...
+OPENAI_TOKEN=...
+```
 
-In addition to the [standard labels](https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/managing-labels#about-default-labels) above, you can add new labels to issues to classify them into different classes like `documentation`, `frontend`, etc, or to add metadata like `duplicate`, `invalid` etc.
+The backend server can be run with `uvicorn backend.api.main:app --reload` in the root directory.
 
-## Milestones
+### Lambda Function
 
-A [milestone](https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/tracking-the-progress-of-your-work-with-milestones) groups issues that are expected to be delivered at some point in time. It also allows ordering (prioritizing) theses issues and tracking their progress (percentage of issues completed so far). In the scrum context, a milestone can be used as a sprint. So, you can create your sprints and give them names like Sprint1, Sprint2, etc. and set their due dates respectively.
+Our AWS Lambda function is stored in `/bytesize-insights_cron/lambda_function.py`. Navigate there to update the function. `BACKEND_URL` is stored in the AWS environment field, but it points to where the backend runs. If you would like to test the code, set `BACKEND_URL=http://localhost:8000/` and run the function through the command line.
 
-## Projects
+## Deployment
 
-A [project](https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/tracking-the-progress-of-your-work-with-project-boards) is a kanban-style board that can aggregate a set of issues for any purpose. In the scrum context, we can create one project called `Scrum Board` and choose its template as `Automated kanban with reviews`. (This will create a set of initial notes that you can delete).
+We use Vercel to handle the deployment process for us. Since this was initially a school project, we were looking for a tool that required the least amount of configuration that could get the application deployed the quickest. Vercel met our requirements because we provide Vercel permissions to access our GitHub repository, removing the need for a continuous deployment script. Instead, our continuous deployment is fully configured through the Vercel dashboard user interface to update whenever code is pushed onto the main branch. There is also no build script, as this is done through the Vercel dashboard. Additionally, Vercel enables us to run the tests prior to each deployment.
 
-## Branches
+### CI/CD
 
-The `master` branch is the main branch used for releases. Other branches can be created. For example, a branch called `gh-pages` is often used to create a website for the repository (for more information check this [link](https://pages.github.com/)). Other branches can be created to address the issues of the repository, one branch per issue (called an `issue` branch). Such branches can then be used to create pull requests, where they get peer reviewed and eventually merged into the `master` branch. For more information on branches, check this [link](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/about-branches).
+To deploy this application, simply make changes to the main branch via a pull request. The badge at the beginning of this README indicates the status of the deployment: if the application has been deployed successfully, the badge will be green. This application utilizes Vercel to conduct continuous deployment of the frontend and backend. Similarly, the cron job used to send emails and scrape the GitHub API for pull requests has implicit continuous deployment via changes to the backend API. Whenever changes to the main branch of the repository, Vercel will trigger a new deployment of the frontend, backend, and cron job.
 
-## Pull Requests
+### Lambda Function
 
-A [pull request](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/about-pull-requests) is a request to merge commits from one branch to another branch. This is typically used to merge commits from an `issue` branch into the `master` branch. A pull request is how the process of peer review is carried. Reviewers can comment on the code changes to show approval or request changes (which will need to be addressed by additional commits to the `issue` branch). When a CI pipeline is configured for a repository (see below), it will run on any `issue` branch that is part of a pull request. When the peer review process has concluded, the new commits can merged into the `master` branch. The recommended merge option is `Squash and merge`, (i.e., squash all commits into a single commit), since it makes the repository's history simple and linear.
-
-## Tags
-
-Tags can be used to mark release points in a repository's commit history. Typically, after some work goal has been achieved, with a set of commits, a tag (typically a version number like 1.0.0, 1.0.1, etc.) is [pushed to the respository](https://stackoverflow.com/questions/18216991/create-a-tag-in-a-github-repository) to mark this point. This results in the tag showing up in the repository's [tags page](https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/viewing-your-repositorys-releases-and-tags).
-
-## Workflows
-
-### Creating issues
-
-An issue can be created from the `issues` tab of a repository. An issue type (bug, story, epic, question) is first chosen then its corresponding template can be sufficiently filled.
-
-### Triaging issues
-
-The Product Owner goes frequently to the `Scrum Board` project and clicks on the `Add Cards` link to triage new issues in the repository to the board's `To do` column, which acts here as the `Product Backlog`. Product Owner can also added unbaked ideas to the `To do` column as notes, which are placeholders that can later be converted into issues. Issues and notes can then be ordered in the `To do` column to show their priority.
-
-### Planning sprints
-
-The Scrum Master creates a new milestone and gives it a suitable name (e.g., Sprint1) and a due date. Then, in the `Scrum Board`, issues from the top of the `To do` column (assuming they have been ordered based on priority) can be assigned to that milestone and to the developers who will work on them.
-
-### Working on issues
-
-Developers go to the `Scrum Board` where they can filter it for the issues assigned to them in a given milestone. They can pick ones to work on by moving them to the `In progress` column (this is important since this is not automated).
-
-### Reviewing progress
-
-In the daily standup, the `Scrum Master` can review progress by going to the `Scrum Board` and filtering it by the current milestone (sprint). Developers can then reference issues in the various columns when they answer the usual standup questions, e.g., isses they work on (`In progress`), finsihed (`Done`) or yet to work on (`To do`).
-
-### Working with issue branches
-
-Before developers can work on an issue, they should checkout and pull the `master` branch to ensure that they have all the latest commits locally. Then, they should create a new local `issue` branch and name it `issue-[number]` (replacing `[number]` by the issue number). Several `issue` branches can be created concurrently, one for each issue, but it is important to make them independent from each other by checking out the `master` branch before creating each of them. This allows them to be pushed and merged independently from each other (and with the least conflicts).
-
-Each `issue` branch can accumulate commits to address the issue. When ready, it can then be pushed to a corresponding remote branch that can then be used to create a pull request into the `master` branch. The pull request template needs to be filled at this point. Once created, a pull request can be reviewed by a peer reviewer who may request changes. These changes can be made using new commits in the local `issue` branch that can subsequently be pushed to the corresponding remote `issue` branch. When all peer reviews have concluded, the pull request can then be `squash merged` into the `master` branch ([read more here](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/about-pull-request-merges#squash-and-merge-your-pull-request-commits)), and the `issue` branch [can be deleted](https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/managing-the-automatic-deletion-of-branches). If the pull request description includes the words `fixes #[number]` (where `[number]` is an issue number), the issue with that number will [automatically be closed](https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword).
-
-> it is recommeded to not push commits to the master branch directly but to always go through a peer review process using an `issue` branch.
-
-### Creating releases
-
-It is recommended to [create periodic releases](https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/managing-releases-in-a-repository#creating-a-release) from a repository, at least at the end of each sprint but can be more frequent. These releases should be working versions of the component(s) being developed in the repository. To create such releases, a new tag representing a version number (e.g., 1.0.0) is added to the local `master` branch then pushed to the remote `master` branch. A new release can then be created in Github using this tag.
-
-### Using a CI/CD pipeline
-
-Every repository needs to have a way to build its artifacts headlessly. It is a good idea to run tests as part of such build. Instructions on how to build the components in a repository needs to be documented in the repository's README.md.
-
-A repository can also be setup to build continuously whenever a commit is pushed to the `master` branch by setting up a CI script (e.g., [Travis CI](https://www.travis-ci.com/)) in its root folder. Such script will configure the build environment (as a virtual machine) and invoke the build script on the `master` branch. If the script fails for some reason, the committer will be notified to fix it. It is a good practice to add a build [badge](https://shields.io/category/version) to the README.md file to visibly indicate the status of the last CI build (Travis CI provides such badges). 
-
-The CI script will also be run when a new pull request is created or when more commits are pushed to its linked `issue` branch. Such build assures peer reviewers that the new commits when accepted will not break the build. In fact, a successful CI build can be a prerequisute for peer reviewers to look at the changes.
-
-When a tag is pushed to the `master` branch, the CI script will additionally deliver and/or deploy the built artifact(s). The script can also be configured to create a Github release based on the tag.
+The AWS Lambda function is deployed on one of our AWS accounts. The logic is simple and shouldn't be changed, so there should not be a need to adjust this, but contact @Zasaimster (saimm.ahmadd@gmail.com) for more information.
