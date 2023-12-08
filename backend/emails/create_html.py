@@ -1,8 +1,8 @@
 from fastapi import Depends, APIRouter
 
 
-from crud import get_all_users, get_all_prs
-from dependencies import get_mongo_db
+from backend.crud import get_all_users, get_all_prs
+from backend.dependencies import get_mongo_db
 import smtplib
 
 from email.mime.multipart import MIMEMultipart
