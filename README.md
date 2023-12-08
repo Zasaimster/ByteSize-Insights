@@ -1,4 +1,6 @@
-# ByteSize Insights
+<img src="https://therealsujitk-vercel-badge.vercel.app/?app=byte-size-insights" />
+
+# Repository Template
 
 Bytesize Insights is a powerful application that aggregates repository PRs and utilizes ChatGPT to generate concise summaries. The user-friendly front-end interface allows personalized customization of subscribed repositories. Stay informed with weekly email digests detailing the latest happenings in your chosen repositories. Experience streamlined PR management with Bytesize Insights.
 
