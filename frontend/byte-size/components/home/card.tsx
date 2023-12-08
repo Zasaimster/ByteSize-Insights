@@ -8,12 +8,14 @@ export default function Card({
   onClick,
   repoTitle,
   large,
+  url
 }: {
   title: string;
   action: string;
   onClick?: (title: any) => void;
   repoTitle: string;
   large?: boolean;
+  url: string;
 }) {
   return (
     <div
@@ -29,7 +31,7 @@ export default function Card({
           <Link
             href={{
               pathname: '/repos',
-              query: { title: title, description: "byte" }
+              query: { url, title, repoTitle }
             }}
             className="col-span-1 flex items-center justify-center">View</Link>
         </div>
