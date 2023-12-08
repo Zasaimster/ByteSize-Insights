@@ -1,4 +1,5 @@
-<img src="https://therealsujitk-vercel-badge.vercel.app/?app=byte-size-insights" />
+Frontend: <img src="https://therealsujitk-vercel-badge.vercel.app/?app=byte-size-insights" />
+Backend: <img src="https://therealsujitk-vercel-badge.vercel.app/?app=byte-size-insights-backend" />
 
 # Repository Template
 
@@ -22,7 +23,7 @@ Follow these instructions before writing any code:
 - Run `npm install` to install our dependencies
 - Run `npm run dev` to load the development server located at `http://localhost:3000`
 
-You will need to be running the backend simultaneously if you would like to walk through user workflows. Check the [Backend](https://github.com/Zasaimster/ByteSize-Insights?tab=readme-ov-file#backend) section to run the server.
+You will need to be running the backend simultaneously if you would like to walk through user workflows. Check the [Backend](https://github.com/Zasaimster/ByteSize-Insights?tab=readme-ov-file#backend) section to run the server. The frontend can be run with `next start` in the `frontend/byte-size/` directory.
 
 ### Backend
 
@@ -39,20 +40,15 @@ GITHUB_TOKEN=...
 OPENAI_TOKEN=...
 ```
 
+The backend server can be run with `uvicorn backend.api.main:app --reload` in the root directory.
+
 ### Lambda Function
 
 Our AWS Lambda function is stored in `/bytesize-insights_cron/lambda_function.py`. Navigate there to update the function. `BACKEND_URL` is stored in the AWS environment field, but it points to where the backend runs. If you would like to test the code, set `BACKEND_URL=http://localhost:8000/` and run the function through the command line.
 
 ## Deployment
 
-We use Vercel to handle the deployment process for us. Since this was initially a school project, we were looking for a tool that required the least amount of configuration that could get the application deployed the quickest. Vercel met our requirements because we provide Vercel permissions to access our GitHub repository, removing the need for a continuous deployment script. Instead, our continuous deployment is fully configured through the Vercel dashboard user interface to update whenever code is pushed onto the *main* branch. Additionally, Vercel enables us to run the tests prior to each deployment.
-
-Here are the steps required to set up the Vercel deployment. Once these are completed, continuous deployment is integrated onto the *main* branch.
-
- 1. Navigate to you Vercel account and create a new project. Give it a relevant title like "bytesize-insights-backend"
- 2. Link your GitHub account to Vercel and grant it permissions to access your repositories. Select this repository from the list of repositories.
- 3. Under "Framework Preset" select "Other" if you are deploying the FastAPI backend, and "Next.js" if you are deploying the frontend. Set the root directory to the corresponding folder (*/backend* or */frontend/byte-size*)
- 4. Configure the build settings to run the application. Click deploy and try out your hosted application!
+We use Vercel to handle the deployment process for us. Since this was initially a school project, we were looking for a tool that required the least amount of configuration that could get the application deployed the quickest. Vercel met our requirements because we provide Vercel permissions to access our GitHub repository, removing the need for a continuous deployment script. Instead, our continuous deployment is fully configured through the Vercel dashboard user interface to update whenever code is pushed onto the main branch. There is also no build script, as this is done through the Vercel dashboard. Additionally, Vercel enables us to run the tests prior to each deployment.
 
 ### CI/CD
 

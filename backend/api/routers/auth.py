@@ -4,9 +4,9 @@ from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordRequestFor
 from typing import Annotated
 
 
-from backend.dependencies import get_mongo_db, AuthHandler
-from backend.crud import get_user, insert_user
-from backend.models import SignUpQuery
+from ..dependencies import get_mongo_db, AuthHandler
+from ..crud import get_user, insert_user
+from ..models import SignUpQuery
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
