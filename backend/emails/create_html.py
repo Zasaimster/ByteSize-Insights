@@ -1,5 +1,5 @@
 from fastapi import Depends, APIRouter
-
+from datetime import datetime
 
 from crud import get_all_users, get_all_prs
 from dependencies import get_mongo_db
@@ -36,11 +36,35 @@ async def create_html(db = Depends(get_mongo_db)):
 
 
     # then redo the html file 
+    print(pr_lst[0])
     html = open('./emails/template.html').read()
-    html = html.replace('{{ content1 }}', pr_lst[0])
-    html = html.replace('{{ content2 }}', pr_lst[1])
-    html = html.replace('{{ content3 }}', pr_lst[2])
-    html = html.replace('{{ content4 }}', pr_lst[3])
+    html = html.replace('{{ content1 }}', pr_lst[0]["description"])
+    html = html.replace('{{ content2 }}', pr_lst[1]["description"])
+    html = html.replace('{{ content3 }}', pr_lst[2]["description"])
+    html = html.replace('{{ content4 }}', pr_lst[3]["description"])
+
+    dates = [pr_lst[i]["created_at"] for i in range(4)]
+    titles = [pr_lst[i]["url"] for i in range(4)]
+
+    parsed_titles = [title.split("/")[-3] for title in titles]
+    parsed_dates = []
+    for date in dates:
+        date_format = "%Y-%m-%dT%H:%M:%SZ"
+        parsed_date = datetime.strptime(date, date_format)   
+        formatted_date = parsed_date.strftime("%B %d, %Y")
+        parsed_dates.append(formatted_date)
+
+    print(parsed_titles)
+    print(parsed_dates)
+    html = html.replace('{{ date1 }}', parsed_dates[0])
+    html = html.replace('{{ date2 }}', parsed_dates[1])
+    html = html.replace('{{ date3 }}', parsed_dates[2])
+    html = html.replace('{{ date4 }}', parsed_dates[3])
+
+    html = html.replace('{{ title1 }}', parsed_titles[0].capitalize())
+    html = html.replace('{{ title2 }}', parsed_titles[1].capitalize())
+    html = html.replace('{{ title3 }}', parsed_titles[2].capitalize())
+    html = html.replace('{{ title4 }}', parsed_titles[3].capitalize())
 
     send_html = open('./emails/send_template.html', 'w')
     send_html.write(html)

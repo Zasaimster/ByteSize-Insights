@@ -196,15 +196,15 @@
                     <tr>
                       <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                         <div style="font-family:Helvetica, Arial, sans-serif;font-size:18px;font-weight:bold;line-height:24px;text-align:left;color:#434245;">
-                          <p class="date" style="margin: 0;">Janurary 13, 2020</p>
-                          <h2 style="margin: 0; font-size: 24px; line-height: normal; font-weight: bold;"> Summary One </h2>
+                          <p class="date" style="margin: 0;">December 02, 2023</p>
+                          <h2 style="margin: 0; font-size: 24px; line-height: normal; font-weight: bold;"> React </h2>
                         </div>
                       </td>
                     </tr>
                     <tr>
                       <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                         <div style="font-family:Helvetica, Arial, sans-serif;font-size:18px;font-weight:400;line-height:24px;text-align:left;color:#434245;">
-                          <p style="margin: 0;">  </p>
+                          <p style="margin: 0;"> This pull request addresses a bug in the current implementation of the `useSyncExternalStoreWithSelector` function in React that causes unnecessary re-evaluation of selectors even when the snapshot hasn't changed. This can lead to increased CPU usage, especially in large apps with many selectors and frequent actions. The pull request includes a test that fails in the current version but passes with the fix. It also includes a code diff that shows the changes made to the function. The pull request is currently open and was created on December 2, 2023, and last updated on December 3, 2023. </p>
                         </div>
                       </td>
                     </tr>
@@ -278,35 +278,15 @@
                     <tr>
                       <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                         <div style="font-family:Helvetica, Arial, sans-serif;font-size:18px;font-weight:bold;line-height:24px;text-align:left;color:#434245;">
-                          <p class="date" style="margin: 0;">Janurary 12, 2020</p>
-                          <h2 style="margin: 0; font-size: 24px; line-height: normal; font-weight: bold;"> Summary Two </h2>
+                          <p class="date" style="margin: 0;">December 01, 2023</p>
+                          <h2 style="margin: 0; font-size: 24px; line-height: normal; font-weight: bold;"> React </h2>
                         </div>
                       </td>
                     </tr>
                     <tr>
                       <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                         <div style="font-family:Helvetica, Arial, sans-serif;font-size:18px;font-weight:400;line-height:24px;text-align:left;color:#434245;">
-                          <p style="margin: 0;"> Currently Stacked on: #27534 review the last commit to see changes relevant to this PR exclusively
-
-Historically React would produce component stacks for dev builds only. There is a cost to tracking component stacks and given the prod builds try to optimize runtime performance these stacks were left out. More recently React added component stacks to Fiber because it can be immensely helpful in tracking down hard to debug production issues. Fizz was not updated to have a similar behavior
-
-With the advent of prerendering however stacks for production in Fizz are more relevant because prerendering is not really a dev-time task. If you want the ability to reason about errors or postpones that happen during a prerender having component stacks to interrogate is helpful and these component stacks need to be available in production otherwise you are really never going to see them. (it is possible that you could do dev-mode prerenders but we don't expect this to be a common dev mode workflow)
-
-To better support the prerender use case and to make error logging in Fizz more useful the following changes have been made
-
-onPostpone now accepts a second postponeInfo argument which may contain a componentStack. Postpones always originate from a component render so the stack should be consistently available in the following cases
-In production it will contain a stack during prerendering
-In dev it will contain a stack always
-onError now accepts a second errorInfo argument which may contain a componentStack. If an error originated from a component a stack will be included in the following cases.
-In production it will contain a stack during prerendering
-In dev it will contain a stack always
-This change entails tracking the component hierarchy in prod builds now. We don't actually reify a stack string unless we're in a mode which produces stacks (as described above). The hope is that the incremental cost of stack tracking in prod is not significant if we just use a linked list style stack and only traverse it when we must actually produce something for the above APIs
-
-It's possible that adding stacks to these APIs in prod all the time is reasonable since the work only happens when you are in an error pathway where performance is already impacted. We can decide to modify this PR to accommodate that with discussion or land that as a separate change if we decide it is worth adding
-
-In the course of implementing this change a number of simplifications were made to the code which should make the stack tracking more resilient. We no longer use a module global to curry the stack up to some handler. This was delicate because you needed to always reset it properly. We now curry the stack on the task itself. This still requires some careful code coordination because we want to always "consume" this stack at the point where we are handling the thrown value.
-
-Another change made was to track the component stack on SuspenseBoundary instances so that we can provide the stack when aborting suspense boundaries to help you determine which ones were affected by an abort. </p>
+                          <p style="margin: 0;"> This pull request aims to refactor the deployment script for improved readability and robustness. The main function has been modularized into smaller, focused functions, making the code easier to understand and maintain. Error handling has been implemented to catch and report any unhandled exceptions, enhancing the script's robustness. User interaction has been improved with clearer instructions and outputs, making the script more user-friendly. Comprehensive comments have been added to provide context and understanding of the code logic. Sensitive data and tokens are now handled securely to prevent potential security risks. These changes were tested in various scenarios, including valid and invalid inputs, error simulations, and successful execution verification. A peer review was conducted for further validation. This PR is currently open and was created on 2023-12-01 at 21:34:06 UTC. The last update was made on 2023-12-01 at 22:16:56 UTC. </p>
                         </div>
                       </td>
                     </tr>
@@ -350,20 +330,15 @@ Another change made was to track the component stack on SuspenseBoundary instanc
                     <tr>
                       <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                         <div style="font-family:Helvetica, Arial, sans-serif;font-size:18px;font-weight:bold;line-height:24px;text-align:left;color:#434245;">
-                          <p class="date" style="margin: 0;">Janurary 12, 2020</p>
-                          <h2 style="margin: 0; font-size: 24px; line-height: normal; font-weight: bold;"> Summary Three </h2>
+                          <p class="date" style="margin: 0;">December 01, 2023</p>
+                          <h2 style="margin: 0; font-size: 24px; line-height: normal; font-weight: bold;"> React</h2>
                         </div>
                       </td>
                     </tr>
                     <tr>
                       <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                         <div style="font-family:Helvetica, Arial, sans-serif;font-size:18px;font-weight:400;line-height:24px;text-align:left;color:#434245;">
-                          <p style="margin: 0;"> Request to remove Intel from SDIO ID since hardware never became available to clean up file.
-
-Looks to have been missed during this pull request
-"This hardware never became available to normal humans. Leaving this
-driver imposes unwelcome maintenance costs for no clear benefit."
-ce8126c </p>
+                          <p style="margin: 0;"> This pull request aims to update the entrypoints for `react-dom`, specifically moving client-only exports to `react-dom/client`. By doing this, we can avoid including the entire client build when importing from `react-dom`, resulting in more efficient runtime for Flight, Fizz, and Fiber. This change only affects the OSS channels and does not alter how the meta entrypoints are organized. </p>
                         </div>
                       </td>
                     </tr>
@@ -424,23 +399,15 @@ ce8126c </p>
                     <tbody><tr>
                       <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                         <div style="font-family:Helvetica, Arial, sans-serif;font-size:18px;font-weight:bold;line-height:24px;text-align:left;color:#434245;">
-                          <p class="date" style="margin: 0;">Janurary 13, 2020</p>
-                          <h2 style="margin: 0; font-size: 24px; line-height: normal; font-weight: bold;"> Summary Four </h2>
+                          <p class="date" style="margin: 0;">November 29, 2023</p>
+                          <h2 style="margin: 0; font-size: 24px; line-height: normal; font-weight: bold;"> React </h2>
                         </div>
                       </td>
                     </tr>
                     <tr>
                       <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                         <div style="font-family:Helvetica, Arial, sans-serif;font-size:18px;font-weight:400;line-height:24px;text-align:left;color:#434245;">
-                          <p style="margin: 0;"> Summary
-This app was using old versions of React and react-scripts, making it difficult to get running in a local environment. Here we upgrade dependencies and re-run the markdown fixture generation. It appears there have been some changes related to form attributes since the last run.
-
-How did you test this change?
-yarn dev
-
-See app is launching and rendering
-Save markdown fixture works (see diff in PR)
-Screenshot 2023-11-27 at 2 24 27 PM </p>
+                          <p style="margin: 0;"> This pull request aims to add component stacks to the `onError` and `onPostpone` functions in the Fizz tool during prerenders in production mode and in dev mode. Component stacks are useful for debugging and tracking down hard-to-debug production issues. The changes include adding a second argument, `postponeInfo` and `errorInfo`, to `onPostpone` and `onError` respectively, which may contain a component stack. This change allows for better error logging and the ability to reason about errors or postpones during prerenders. The code has been modified to track the component stack on SuspenseBoundary instances as well. The implementation has made the stack tracking more resilient and simplified the code. The pull request is currently open and was created on November 29, 2023. </p>
                         </div>
                       </td>
                     </tr>
@@ -735,9 +702,3 @@ Screenshot 2023-11-27 at 2 24 27 PM </p>
   
   
   </body><style>
-  @media print {
-    #simplifyJobsContainer {
-      display: none;
-    }
-  }
-  </style><div id="simplifyJobsContainer" style="position: absolute; top: 0px; left: 0px; width: 0px; height: 0px; overflow: visible; z-index: 2147483647;"><span></span></div><script id="simplifyJobsPageScript" src="chrome-extension://pbanhockgagggenencehbnadejlgchfc/js/pageScript.bundle.js"></script></html>

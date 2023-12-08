@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 
-from crud import get_repo_by_url, get_user_repos, subscribe_user_to_repo
+from crud import get_repo_by_url, get_user_repos, subscribe_user_to_repo, get_all_repos
 from routers.auth import get_user_information
 from dependencies import get_mongo_db
 
@@ -21,9 +21,15 @@ async def subscribe_to_repo(user_id: str, repo_url: str, db=Depends(get_mongo_db
     return {"message": repo}
 
 
-@router.get("/getAllRepos")
+@router.get("/getSubbedRepos")
 async def get_repos(db=Depends(get_mongo_db), user=Depends(get_user_information)):
     repositories = get_user_repos(db, user["subscriptions"])
+
+    return repositories
+
+@router.get("/getAllRepos")
+async def get_repos(db=Depends(get_mongo_db)):
+    repositories = get_all_repos(db)
 
     return repositories
 

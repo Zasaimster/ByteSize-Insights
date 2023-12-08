@@ -127,3 +127,24 @@ def get_all_prs(db):
     pr_lst = col.distinct("description")
     return (parse_json(pr_lst))
 
+
+def get_all_prs(db):
+    col = db["pull-requests"]
+    
+    # Define the fields you want to retrieve in the query
+    fields_to_retrieve = {"url": 1, "description": 1, "created_at":1}  # Add more fields as needed
+
+    # Use find() to retrieve documents with specified fields
+    pr_docs = col.find({}, fields_to_retrieve)
+
+    # Extract the desired fields from the documents
+    pr_lst = []
+    for pr_doc in pr_docs:
+        pr_entry = {
+            "description": pr_doc.get("description"),
+            "url": pr_doc.get("url"),
+            "created_at": pr_doc.get("created_at"),
+        }
+        pr_lst.append(pr_entry)
+
+    return pr_lst
