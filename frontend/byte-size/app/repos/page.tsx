@@ -8,7 +8,7 @@ import { nFormatter } from "@/lib/utils";
 import { ReactNode, useState } from "react";
 
 export default async function UserHome({ searchParams }:
-  { searchParams: { title: string, description: string } }) {
+  { searchParams: { url: string, title: string, description: string } }) {
   const { stargazers_count: stars } = await fetch(
     "https://api.github.com/repos/Zasaimster/ByteSize-Insights",
     {
@@ -24,8 +24,8 @@ export default async function UserHome({ searchParams }:
   )
     .then((res) => res.json())
     .catch((e) => console.log(e));
-
-  const response = await fetch('http://localhost:8000/user/getRepoInfo?repo_url=https%3A%2F%2Fgithub.com%2Ffacebook%2Freact').then((res)=>res.json()).catch((e)=>console.log(e))
+  const base_url = "http://localhost:8000"
+  const response = await fetch(base_url+`/user/getRepoInfo?repo_url=${searchParams.url}`).then((res)=>res.json()).catch((e)=>console.log(e))
   const parseDate= (dateStr:string) => {
     const inputDate = new Date(dateStr);
 
