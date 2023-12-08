@@ -45,7 +45,14 @@ Our AWS Lambda function is stored in `/bytesize-insights_cron/lambda_function.py
 
 ## Deployment
 
-We use Vercel to handle the deployment process for us. Since this was initially a school project, we were looking for a tool that required the least amount of configuration that could get the application deployed the quickest. Vercel met our requirements because we provide Vercel permissions to access our GitHub repository, removing the need for a continuous deployment script. Instead, our continuous deployment is fully configured through the Vercel dashboard user interface to update whenever code is pushed onto the main branch. There is also no build script, as this is done through the Vercel dashboard. Additionally, Vercel enables us to run the tests prior to each deployment.
+We use Vercel to handle the deployment process for us. Since this was initially a school project, we were looking for a tool that required the least amount of configuration that could get the application deployed the quickest. Vercel met our requirements because we provide Vercel permissions to access our GitHub repository, removing the need for a continuous deployment script. Instead, our continuous deployment is fully configured through the Vercel dashboard user interface to update whenever code is pushed onto the *main* branch. Additionally, Vercel enables us to run the tests prior to each deployment.
+
+Here are the steps required to set up the Vercel deployment. Once these are completed, continuous deployment is integrated onto the *main* branch.
+
+ 1. Navigate to you Vercel account and create a new project. Give it a relevant title like "bytesize-insights-backend"
+ 2. Link your GitHub account to Vercel and grant it permissions to access your repositories. Select this repository from the list of repositories.
+ 3. Under "Framework Preset" select "Other" if you are deploying the FastAPI backend, and "Next.js" if you are deploying the frontend. Set the root directory to the corresponding folder (*/backend* or */frontend/byte-size*)
+ 4. Configure the build settings to run the application. Click deploy and try out your hosted application!
 
 ### CI/CD
 
